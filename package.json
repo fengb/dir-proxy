@@ -7,7 +7,7 @@
   "homepage": "https://github.com/fengb/require-dir-proxy#readme",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --harmony-proxies"
   },
   "repository": {
     "type": "git",
@@ -26,5 +26,9 @@
   "devDependencies": {
     "chai": "^3.4.0",
     "mocha": "^2.3.3"
+  },
+  "dependencies": {
+    "harmony-reflect": "^1.4.2",
+    "module-resolve-as-caller": "^0.1.0"
   }
 }
