@@ -17,4 +17,14 @@ describe('require-dir-proxy', function () {
     dir.index
     expect(Object.keys(dir)).to.deep.equal(['index'])
   })
+
+  describe('.withBase', function () {
+    it('uses the base file as underlying', function () {
+      var base = require('mocha')
+      var proxy = requireDir.withBase('mocha')
+      for (var key in base) {
+        expect(proxy[key]).to.equal(base[key])
+      }
+    })
+  })
 })
