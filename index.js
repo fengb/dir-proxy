@@ -5,17 +5,17 @@ var moduleResolveAsCaller = require('module-resolve-as-caller')
 
 var requireDirProxy = module.exports = function (targetDir, base) {
   targetDir = moduleResolveAsCaller(targetDir)
-  var proxyRequired = {}
+  var proxyCache = {}
 
-  return new Proxy(base || proxyRequired, {
+  return new Proxy(base || proxyCache, {
     get: function (target, prop) {
       if (prop in target) {
         return target[prop]
       }
 
-      if (!proxyRequired.hasOwnProperty(prop)) {
+      if (!proxyCache.hasOwnProperty(prop)) {
         try {
-          proxyRequired[prop] = require(path.join(targetDir, prop))
+          proxyCache[prop] = require(path.join(targetDir, prop))
         } catch (e) {
           if (e.code === 'MODULE_NOT_FOUND') {
             console.warn(e.message)
@@ -25,12 +25,12 @@ var requireDirProxy = module.exports = function (targetDir, base) {
         }
       }
 
-      return proxyRequired[prop]
-    }
+      return proxyCache[prop]
+    },
   })
 }
 
-requireDirProxy.withBase = function (targetDir) {
+requireDirProxy.require = function (targetDir) {
   targetDir = moduleResolveAsCaller(targetDir)
   var base = require(targetDir)
   return requireDirProxy(targetDir, base)

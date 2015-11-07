@@ -23,10 +23,10 @@ describe('require-dir-proxy', function () {
     console.log(proxy)
   })
 
-  describe('.withBase', function () {
+  describe('.require', function () {
     it('uses the base file as underlying', function () {
       var base = require('mocha')
-      var proxy = requireDir.withBase('mocha')
+      var proxy = requireDir.require('mocha')
       for (var key in base) {
         expect(proxy[key]).to.equal(base[key])
       }
@@ -34,7 +34,7 @@ describe('require-dir-proxy', function () {
 
     it('does not modify base when auto requiring', function () {
       var base = require('..')
-      var proxy = requireDir.withBase('..')
+      var proxy = requireDir.require('..')
       expect(proxy.index).to.equal(base)
       expect(base).to.not.have.property('index')
     })
