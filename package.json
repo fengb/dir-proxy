@@ -23,12 +23,12 @@
   "bugs": {
     "url": "https://github.com/fengb/require-dir-proxy/issues"
   },
+  "dependencies": {
+    "module-resolve-as-caller": "^0.1.0"
+  },
   "devDependencies": {
     "chai": "^3.4.0",
-    "mocha": "^2.3.3"
-  },
-  "dependencies": {
     "harmony-reflect": "^1.4.2",
-    "module-resolve-as-caller": "^0.1.0"
+    "mocha": "^2.3.3"
   }
 }
