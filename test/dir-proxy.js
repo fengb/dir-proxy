@@ -28,7 +28,21 @@ describe('dir-proxy', function () {
     console.log(proxy)
   })
 
-  describe('.require', function () {
+  describe('with opts', function () {
+    describe('{ transform }', function () {
+      it('transforms with a string method', function () {
+        var proxy = dirProxy('..', { transform: 'toLowerCase' })
+        expect(proxy.Index).to.equal(dirProxy)
+      })
+
+      it('transforms with a function', function () {
+        var proxy = dirProxy('..', { transform: (prop) => 'index' })
+        expect(proxy.foodnard).to.equal(dirProxy)
+      })
+    })
+  })
+
+  describe('.require()', function () {
     it('uses the base file as underlying', function () {
       var base = require('mocha')
       var proxy = dirProxy.require('mocha')

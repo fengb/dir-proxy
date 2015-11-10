@@ -2,10 +2,13 @@ var path = require('path')
 var moduleResolveAsCaller = require('module-resolve-as-caller')
 var requireOptional = require('require-optional')
 
-var dirProxy = module.exports = function (targetDir, base) {
-  var proxyCache = {}
+var dirProxy = module.exports = function (targetDir, opts) {
   targetDir = moduleResolveAsCaller(targetDir)
-  base = base || proxyCache
+  opts = opts || {}
+
+  var proxyCache = {}
+  var base = opts.base || proxyCache
+  var transform = asTransform(opts.transform)
 
   return createProxy(base || proxyCache, {
     get: function (target, prop) {
@@ -14,7 +17,8 @@ var dirProxy = module.exports = function (targetDir, base) {
       }
 
       if (!proxyCache.hasOwnProperty(prop)) {
-        proxyCache[prop] = requireOptional(path.join(targetDir, prop), undefined, console.warn)
+        var targetFile = path.join(targetDir, transform(prop))
+        proxyCache[prop] = requireOptional(targetFile, undefined, console.warn)
       }
 
       return proxyCache[prop]
@@ -30,10 +34,26 @@ var dirProxy = module.exports = function (targetDir, base) {
   })
 }
 
-dirProxy.require = function (targetDir) {
+dirProxy.require = function (targetDir, opts) {
   targetDir = moduleResolveAsCaller(targetDir)
-  var base = require(targetDir)
-  return dirProxy(targetDir, base)
+  opts = opts || {}
+
+  opts.base = require(targetDir)
+  return dirProxy(targetDir, opts)
+}
+
+function asTransform (transform) {
+  if (typeof transform === 'function') {
+    return transform
+  } else if (transform == null) {
+    return function (prop) {
+      return prop
+    }
+  } else {
+    return function (prop) {
+      return prop[transform]()
+    }
+  }
 }
 
 var createProxy = (function () {
