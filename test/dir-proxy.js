@@ -1,4 +1,5 @@
-if (process.env.HARMONY_REFLECT) {
+if (process.env.HARMONY_REFLECT === 'true') {
+  // Shim for 'new Proxy' syntax
   require('harmony-reflect')
 }
 
