@@ -4,6 +4,7 @@ if (process.env.HARMONY_REFLECT === 'true') {
 }
 
 var expect = require('chai').expect
+var sinon = require('sinon')
 var dirProxy = require('..')
 
 describe('dir-proxy', function () {
@@ -23,9 +24,19 @@ describe('dir-proxy', function () {
     expect(Object.keys(proxy)).to.deep.equal(['index'])
   })
 
-  it('does not explode when doing fancy things', function () {
-    var proxy = dirProxy('..')
-    console.log(proxy)
+  context('with fake console.warn', function () {
+    beforeEach(function () {
+      this.console = sinon.stub(console, 'warn')
+    })
+
+    afterEach(function () {
+      this.console.restore()
+    })
+
+    it('does not explode when doing fancy things', function () {
+      var proxy = dirProxy('..')
+      console.warn(proxy)
+    })
   })
 
   describe('with opts', function () {
@@ -36,7 +47,11 @@ describe('dir-proxy', function () {
       })
 
       it('transforms with a function', function () {
-        var proxy = dirProxy('..', { transform: (prop) => 'index' })
+        var proxy = dirProxy('..', {
+          transform: function (prop) {
+            return 'index'
+          },
+        })
         expect(proxy.foodnard).to.equal(dirProxy)
       })
     })
