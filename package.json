@@ -26,7 +26,8 @@
     "url": "https://github.com/fengb/dir-proxy/issues"
   },
   "dependencies": {
-    "module-resolve-as-caller": "^0.1.0"
+    "module-resolve-as-caller": "~0.1.0",
+    "require-optional": "~0.3.0"
   },
   "devDependencies": {
     "chai": "^3.4.0",

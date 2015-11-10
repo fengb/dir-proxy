@@ -1,5 +1,6 @@
 var path = require('path')
 var moduleResolveAsCaller = require('module-resolve-as-caller')
+var requireOptional = require('require-optional')
 
 var dirProxy = module.exports = function (targetDir, base) {
   var proxyCache = {}
@@ -13,15 +14,7 @@ var dirProxy = module.exports = function (targetDir, base) {
       }
 
       if (!proxyCache.hasOwnProperty(prop)) {
-        try {
-          proxyCache[prop] = require(path.join(targetDir, prop))
-        } catch (e) {
-          if (e.code === 'MODULE_NOT_FOUND') {
-            console.warn(e.message)
-          } else {
-            throw e
-          }
-        }
+        proxyCache[prop] = requireOptional(path.join(targetDir, prop), undefined, console.warn)
       }
 
       return proxyCache[prop]
