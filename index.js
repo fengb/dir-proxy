@@ -1,7 +1,7 @@
 var path = require('path')
 var moduleResolveAsCaller = require('module-resolve-as-caller')
 
-var requireDirProxy = module.exports = function (targetDir, base) {
+var dirProxy = module.exports = function (targetDir, base) {
   var proxyCache = {}
   targetDir = moduleResolveAsCaller(targetDir)
   base = base || proxyCache
@@ -37,10 +37,10 @@ var requireDirProxy = module.exports = function (targetDir, base) {
   })
 }
 
-requireDirProxy.require = function (targetDir) {
+dirProxy.require = function (targetDir) {
   targetDir = moduleResolveAsCaller(targetDir)
   var base = require(targetDir)
-  return requireDirProxy(targetDir, base)
+  return dirProxy(targetDir, base)
 }
 
 var createProxy = (function () {

@@ -1,27 +1,29 @@
 {
-  "name": "require-dir-proxy",
+  "name": "dir-proxy",
   "version": "0.1.0",
-  "description": "require directories via proxy objects",
+  "description": "load directories as modules via proxy objects",
   "author": "Benjamin Feng <contact@fengb.info>",
   "license": "MIT",
-  "homepage": "https://github.com/fengb/require-dir-proxy#readme",
+  "homepage": "https://github.com/fengb/dir-proxy#readme",
   "main": "index.js",
   "scripts": {
     "test": "mocha --harmony-proxies"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/fengb/require-dir-proxy.git"
+    "url": "git+ssh://git@github.com/fengb/dir-proxy.git"
   },
   "keywords": [
     "require",
     "dir",
     "directory",
+    "module",
     "proxy",
+    "es6",
     "lazy"
   ],
   "bugs": {
-    "url": "https://github.com/fengb/require-dir-proxy/issues"
+    "url": "https://github.com/fengb/dir-proxy/issues"
   },
   "dependencies": {
     "module-resolve-as-caller": "^0.1.0"
