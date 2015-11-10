@@ -1,3 +1,7 @@
+if (process.env.HARMONY_REFLECT) {
+  require('harmony-reflect')
+}
+
 var expect = require('chai').expect
 var dirProxy = require('..')
 
